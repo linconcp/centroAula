@@ -1,0 +1,14 @@
+<resources>
+  <string name="app_name">Sistema de Centros de Aula</string>
+  <string name="action_settings">Configuraçôes</string>
+  <string name="logo_UFG_hint">Universidade Federal de Goiás</string>
+  <string name="titulo1">Universidade Federal de Goiás</string>
+  <string name="titulo2">Pró-reitoria de Graduação</string>
+  <string name="centro_a">Centro de Aula Aroeira</string>
+  <string name="centro_b">Centro de Aula Barú</string>
+  <string name="centro_c">Centro de Aula Caraíbas</string>
+  <string name="centro_d">Centro de aula D</string>
+  <string name="centro_e">Faculdade de Educação Física</string>
+  <string name="centro_f">INF- Instituto de Informática</string>
+  <string name="centro_g">Instituto de Estudo Sócio-ambiental</string>
+</resources>
