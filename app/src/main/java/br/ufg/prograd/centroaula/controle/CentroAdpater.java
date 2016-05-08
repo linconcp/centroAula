@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.ufg.prograd.centroaula.entidade.EHorario;
-
 /**
  * Responsável pela apresentação das informações dos centro de aula dentro do GridView.
  */

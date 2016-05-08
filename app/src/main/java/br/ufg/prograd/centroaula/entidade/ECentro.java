@@ -1,9 +1,10 @@
 package br.ufg.prograd.centroaula.entidade;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
-public class EHorario implements Serializable {
+public class ECentro implements Serializable {
 
   private static final long serialVersionUID = -2591154974918066513L;
 

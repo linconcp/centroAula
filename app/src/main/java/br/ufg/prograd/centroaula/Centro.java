@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufg.prograd.centroaula.controle.CentroHttp;
+import br.ufg.prograd.centroaula.entidade.ECentro;
 
 public class Centro extends Activity {
 
   CentroTask horarioTask;
 
-  List<String[]> lCentro;
+  List<String> lCentro;
 
   GridView gvCentro;
 
@@ -26,7 +27,7 @@ public class Centro extends Activity {
 
   ProgressBar barraProgresso;
 
-  ArrayAdapter<String[]> celulaAdpater;
+  ArrayAdapter<String> celulaAdpater;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class Centro extends Activity {
     }
   }
 
-class CentroTask extends AsyncTask<Void, Void, List<String[]>> {
+class CentroTask extends AsyncTask<Void, Void, List<String>> {
 
   @Override
   protected void onPreExecute() {
@@ -80,19 +81,20 @@ class CentroTask extends AsyncTask<Void, Void, List<String[]>> {
   }
 
   @Override
-  protected List<String[]> doInBackground(Void... params) {
+  protected List<String> doInBackground(Void... params) {
     CentroHttp centroHttp = new CentroHttp();
     return centroHttp.carregarCentro(1);
   }
 
   @Override
-  protected void onPostExecute(List<String[]> centro) {
+  protected void onPostExecute(List<String> centro) {
     super.onPostExecute(centro);
     exibirProgresso(false);
 
     if (centro != null) {
       lCentro.clear();
       lCentro.addAll(centro);
+      gvCentro.setNumColumns(3);
       celulaAdpater.notifyDataSetChanged();
     } else {
       tvMensagem.setText("Falha ao receber informações do Centro de Aula!");

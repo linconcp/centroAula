@@ -14,10 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import br.ufg.prograd.centroaula.entidade.EHorario;
+import br.ufg.prograd.centroaula.entidade.ECentro;
 
 /**
  * Classe responsável pela comunicação com o webservice da UFG. Buscando as informações em formato
@@ -72,9 +71,9 @@ public class CentroHttp {
    * @param predio códido do centro de aula a ser usado para a consulta dos horários de aula.
    * @return As informações das aulas do centro de aula formatado e agrupado.
    */
-  public List<String[]> carregarCentro(int predio) {
+  public List<String> carregarCentro(int predio) {
 
-    List<EHorario> resultadoConsulta = new ArrayList<>();
+    List<ECentro> resultadoConsulta = new ArrayList<>();
 
     try {
       HttpURLConnection conexao = conectar(predio);
@@ -101,7 +100,7 @@ public class CentroHttp {
             default:
               linhaTratada = linhaBruta.split(SEPARADOR_DADOS, rotuloColunas.size());
 
-              final EHorario eHorario = new EHorario();
+              final ECentro eCentro = new ECentro();
 
               final String[] horario = linhaTratada[0].split("-");
               final Calendar dataInicio = Calendar.getInstance();
@@ -113,13 +112,13 @@ public class CentroHttp {
               dataFim.set(Calendar.HOUR_OF_DAY, Integer.parseInt(horario[1].substring(0, 2)));
               dataFim.set(Calendar.MINUTE, Integer.parseInt(horario[1].substring(3, 5)));
 
-              eHorario.setDataInicio(dataInicio.getTime());
-              eHorario.setDataFim(dataFim.getTime());
+              eCentro.setDataInicio(dataInicio.getTime());
+              eCentro.setDataFim(dataFim.getTime());
 
               final String[] sala = Arrays.copyOfRange(linhaTratada, 1, linhaTratada.length);
 
-              eHorario.setDisciplinaSala(sala);
-              resultadoConsulta.add(eHorario);
+              eCentro.setDisciplinaSala(sala);
+              resultadoConsulta.add(eCentro);
               break;
           }
 
@@ -131,6 +130,7 @@ public class CentroHttp {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
     return prepararTabela(resultadoConsulta);
   }
 
@@ -139,8 +139,8 @@ public class CentroHttp {
    * @param lista lista das informações dos horário de aula
    * @return lista preparada para ser usada em componentes de GridView, ListView e outros.
    */
-  private static List<String[]> prepararTabela(List<EHorario> lista) {
-    List<String[]> conteudo = new ArrayList<>();
+  public static List<String> prepararTabela(List<ECentro> lista) {
+    List<String> conteudo = new ArrayList<>();
     final DateFormat formatadorData = new SimpleDateFormat("HH:mm");
 
       int fim = lista.size();
@@ -153,6 +153,8 @@ public class CentroHttp {
       colunasCabecalho[contador] = rotuloColunas.get(contador);
     }
 
+    conteudo.addAll(Arrays.asList(colunasCabecalho));
+
     for (int contador1 = 0; contador1 < lista.size(); contador1++) {
 
       final String[] conteudoAux = new String[colunasCabecalho.length];
@@ -160,11 +162,11 @@ public class CentroHttp {
       conteudoAux[0] = formatadorData.format(lista.get(contador1).getDataInicio()) + " - "
         + formatadorData.format(lista.get(contador1).getDataFim());
 
-      for (int contador2 = 0; contador2 < fim; contador2++) {
+      for (int contador2 = 1; contador2 < fim; contador2++) {
         conteudoAux[contador2] = lista.get(contador1).getDisciplinaSala()[contador2];
       }
 
-      conteudo.add(conteudoAux);
+      conteudo.addAll(Arrays.asList(conteudoAux));
     }
 
     return conteudo;
